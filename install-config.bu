@@ -1,0 +1,34 @@
+variant: fcos
+version: 1.4.0
+passwd:
+  users:
+    - name: sonohen
+      groups:
+        - docker
+        - sudo
+      ssh_authorized_keys:
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJw8VQlDD10wx3PPuC8l8T9mhYmDOikMicWhgH6JkAd1 sonohen@mbpro.local
+storage:
+  files:
+    - path: /etc/hostname
+      mode: 0644
+      contents:
+        inline: container-server
+    - path: /etc/NetworkManager/system-connections/ens192.nmconnection
+      mode: 0600
+      contents:
+        inline: |
+          [connection]
+          id=ens192
+          type=ethernet
+          interface-name=ens192
+          [ipv4]
+          address1=192.168.1.11/24,192.168.1.1
+          dhcp-hostname=container-server
+          dns=192.168.1.1;
+          dns-search=
+          may-fail=false
+          method=manual
+  links:
+    - path: /etc/localtime
+      target: ../usr/share/zoneinfo/Asia/Tokyo
